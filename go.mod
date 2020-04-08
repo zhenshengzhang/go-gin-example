@@ -10,6 +10,7 @@ require (
 	github.com/go-sql-driver/mysql v1.5.0
 	github.com/golang/protobuf v1.3.5 // indirect
 	github.com/jinzhu/gorm v1.9.12
+	github.com/shiena/ansicolor v0.0.0-20151119151921-a422bbe96644 // indirect
 	github.com/unknwon/com v1.0.1
 	golang.org/x/sys v0.0.0-20200406155108-e3b113bbe6a4 // indirect
 )

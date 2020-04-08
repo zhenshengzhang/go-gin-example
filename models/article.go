@@ -13,7 +13,7 @@ type Article struct {
 	Title      string `json:"title,omitempty"`
 	Desc       string `json:"desc,omitempty"`
 	Content    string `json:"content,omitempty"`
-	CreateBy   string `json:"create_by,omitempty"`
+	CreatedBy  string `json:"created_by,omitempty"`
 	ModifiedBy string `json:"modified_by,omitempty"`
 	State      int    `json:"state,omitempty"`
 }
@@ -31,7 +31,8 @@ func (article *Article) BeforeUpdate(scope *gorm.Scope) error {
 // 根据ID判断文章是否存在
 func ExistArticleByID(id int) bool {
 	var article Article
-	db.Where("id = ?", id).First(article)
+	db.Where("id = ?", id).First(&article)
+
 	if article.ID > 0 {
 		return true
 	}
@@ -44,11 +45,39 @@ func GetArticleTotal(maps interface{}) (count int) {
 	return
 }
 
+// 获取文章列表
 func GetArticles(pageNum int, pageSize int, maps interface{}) (articles []Article) {
-	db.Where(maps).Offset(pageNum).Limit(pageSize).Find(&articles)
+	db.Preload("Tag").Where(maps).Offset(pageNum).Limit(pageSize).Find(&articles)
 	return
 }
 
-func CreateArticle() {
+// 获取指定文章
+func GetArticle(id int) (article Article) {
+	db.Where("id = ?", id).First(&article)
+	db.Model(&article).Related(&article.Tag)
+	return
+}
 
+// 创建文章
+func CreateArticle(data map[string]interface{}) bool {
+	db.Create(&Article{
+		TagID:     data["tag_id"].(int),
+		Title:     data["title"].(string),
+		Desc:      data["desc"].(string),
+		Content:   data["content"].(string),
+		CreatedBy: data["created_by"].(string),
+		State:     data["state"].(int),
+	})
+	return true
+}
+
+// 编辑文章
+func EditArticle(id int, data interface{}) bool {
+	db.Model(&Article{}).Where("id = ?", id).Updates(data)
+	return true
+}
+
+func DeleteArticle(id int) bool {
+	db.Where("id = ?", id).Delete(&Article{})
+	return true
 }
