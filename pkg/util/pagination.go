@@ -6,7 +6,7 @@ import (
 	"github.com/zzs/go-gin-example/pkg/setting"
 )
 
-// 获取分页页码
+// 获取页码
 func GetPage(c *gin.Context) int {
 	result := 0
 	page, _ := com.StrTo(c.Query("page")).Int()

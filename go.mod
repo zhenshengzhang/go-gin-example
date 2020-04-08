@@ -4,9 +4,10 @@ go 1.13
 
 require (
 	github.com/EDDYCJY/go-gin-example v0.0.0-20200322073714-2b22b57dfce9
+	github.com/astaxie/beego v1.12.1
 	github.com/gin-gonic/gin v1.6.2
 	github.com/go-ini/ini v1.55.0
-	github.com/go-sql-driver/mysql v1.5.0 // indirect
+	github.com/go-sql-driver/mysql v1.5.0
 	github.com/golang/protobuf v1.3.5 // indirect
 	github.com/jinzhu/gorm v1.9.12
 	github.com/unknwon/com v1.0.1
